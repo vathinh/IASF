@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+</head>
+<body>
+<h1>Create Staff</h1>
+<form action="/create-staff" th:object="${staff}" method="post">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required><br>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required><br>
+    <label for="onboard">Onboard Date:</label>
+    <input type="text" id="onboard" name="onboard" required><br>
+    <label for="salary">Salary:</label>
+    <input type="number" id="salary" name="salary" required><br>
+    <label>Department:</label>
+    <select th:field="*{department}" required>
+        <option value="" disabled selected>Select Department</option>
+        <!-- Use Thymeleaf to iterate through departments and populate options -->
+        <th:block th:each="department : ${departments}">
+            <option th:value="${department.id}" th:text="${department.name}"></option>
+        </th:block>
+    </select><br>
+    <label for="isAdmin">Is Admin:</label>
+    <input type="checkbox" id="isAdmin" name="isAdmin"><br>
+    <button type="submit">Create</button>
+</form>
+
+<h1>Staff List</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Onboard</th>
+        <th>Salary</th>
+        <th>Department</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Use Thymeleaf to iterate through staffList and display staff details -->
+    <th:block th:each="staff : ${staffList}">
+        <tr>
+            <td th:text="${staff.id}"></td>
+            <td th:text="${staff.name}"></td>
+            <td th:text="${staff.onboard}"></td>
+            <td th:text="${staff.salary}"></td>
+            <td th:text="${staff.department.name}"></td>
+            <td><a th:href="@{'/reset-password/' + ${staff.id}}">Reset Password</a></td>
+        </tr>
+    </th:block>
+    </tbody>
+</table>
+</body>
+</html>
